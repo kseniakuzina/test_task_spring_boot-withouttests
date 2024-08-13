@@ -1,0 +1,16 @@
+spring:
+  jpa:
+    database: POSTGRESQL
+    hibernate:
+      ddl-auto: create
+  datasource:
+    platform: postgres
+    url: jdbc:postgresql://localhost:5432/order_service
+    username: postgres
+    password: qazplm
+    driverClassName: org.postgresql.Driver
+  application:
+    name: microserviceorder
+    microservicegeneration:
+      url: http://localhost:8081/numbers
+server:

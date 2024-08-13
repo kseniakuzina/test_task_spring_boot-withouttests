@@ -1,0 +1,61 @@
+services:
+  db:
+    ports:
+      - 5432:5432
+    container_name: postgrescontainer
+    image: postgres
+    environment:
+      - POSTGRES_DB=spring_orders
+      - POSTGRES_PASSWORD=qazplm
+      - POSTGRES_USER=postgres
+    networks:
+      - my-network
+
+  redis:
+    ports:
+      - 6379:6379
+    container_name: redis
+    image: redis
+    hostname: redis
+    networks:
+      - my-network
+
+  generation:
+    build: ./generation
+    container_name: generationcontainer
+    ports:
+      - 8081:8081
+    environment:
+      - SPRING_REDIS_HOST = redis
+      - SPRING_REDIS_PORT = 6379
+      - SPRING_APPLICATION_NAME = microservicegeneration
+    depends_on:
+      - redis
+    links:
+      - redis
+    networks:
+      - my-network
+
+
+  orders:
+    build: ./orders
+    container_name: orderscontainer
+    ports:
+      - 8080:8080
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/spring_orders
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=qazplm
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=create
+      - SPRING_APPLICATION_MICROSERVICEGENERATION_URL=http://generation:8081/numbers
+      - SPRING_APPLICATION_NAME=microserviceorder
+    depends_on:
+      - db
+      - generation
+    networks:
+      - my-network
+
+
+networks:
+  my-network:
+    driver: bridge

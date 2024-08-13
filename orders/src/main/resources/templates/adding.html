@@ -1,0 +1,161 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Оформление заказа</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+</head>
+<body>
+<main class="w-100 m-auto">
+    <div class="w-75 m-auto px-4 py-5 my-5 text-center">
+        <form class="w-50 m-auto" action="/order_service/add" method="post">
+            <h1 class="h3 mb-3 fw-normal">Создание заказа</h1>
+
+            <div class="form-floating my-2">
+                <input type="text" name="receiver" class="form-control" id="floatingName" required>
+                <label for="floatingName">Имя заказчика</label>
+            </div>
+            <div class="form-floating my-2">
+                <input type="text" name="address" class="form-control" id="floatingAddress" required>
+                <label for="floatingAddress">Адрес доставки</label>
+            </div>
+            <div class="form-floating my-2">
+                <input type="text" name="payment_type" class="form-control" list="paymentListOptions" id="paymentDataList" required>
+                <datalist id="paymentListOptions">
+                    <option value="Карта">
+                    <option value="Наличные">
+                </datalist>
+                <label for="paymentDataList">Способ оплаты</label>
+            </div>
+            <div class="form-floating my-2">
+                <input type="text" name="delivery_type" class="form-control" list="deliverListOptions" id="deliverDataList" required>
+                <datalist id="deliverListOptions">
+                    <option value="Самовывоз">
+                    <option value="Доставка до двери">
+                </datalist>
+                <label for="deliverDataList" class="form-label">Способ доставки</label>
+            </div>
+
+            <h1 class="h5 my-3 mt-5 fw-normal" style="text-align: left">Товар №1</h1>
+
+            <div class="form-floating my-2">
+                <input type="number" class="form-control" name="article_number" id="floatingArticle" required>
+                <label for="floatingArticle">Артикул товара</label>
+            </div>
+            <div class="form-floating my-2">
+                <input type="text" class="form-control" name="product_name" id="floatingProductName" required>
+                <label for="floatingProductName">Название товара</label>
+            </div>
+            <div class="form-floating my-2">
+                <input type="number" class="form-control" name="quantity" id="floatingQuantity" required>
+                <label for="floatingQuantity">Количество единиц товара</label>
+            </div>
+            <div class="form-floating my-2">
+                <input type="number" step="0.01" class="form-control" name="cost" id="floatingCost" required>
+                <label for="floatingCost">Стоимость товара</label>
+            </div>
+
+            <div id="inputFields"></div>
+            <button class="btn btn-secondary w-100 mt-3 py-2" onclick="addFn()" type="button">Добавить новый продукт</button>
+
+            <button class="btn btn-primary w-100 mt-3 py-2" type="submit">Оформить заказ</button>
+        </form>
+
+
+    </div>
+
+</main>
+
+<script>
+    var i = 1;
+    function addFn() {
+
+        const divEle = document.getElementById("inputFields");
+        const wrapper = document.createElement("div");
+        const titleArticle = document.createElement("h1");
+        titleArticle.classList.add("h5");
+        titleArticle.classList.add("my-3");
+        titleArticle.classList.add("mt-5");
+        titleArticle.classList.add("fw-normal");
+        titleArticle.setAttribute("style", "text-align: left");
+
+        i++;
+        const data = 'Товар №' + i;
+        titleArticle.textContent = data;
+
+
+        const floatingArticle = document.createElement("div");
+        floatingArticle.classList.add("form-floating");
+        floatingArticle.classList.add("my-2");
+        const articleField = document.createElement("input");
+        articleField.setAttribute("type", "number");
+        articleField.setAttribute("required", "required");
+        articleField.setAttribute("name", "article_number");
+        articleField.setAttribute("id", "floatingArticle");
+        articleField.classList.add("form-control");
+        const articleLabel = document.createElement("label");
+        articleLabel.setAttribute("for", "floatingArticle");
+        articleLabel.innerHTML = "Артикул товара";
+        floatingArticle.appendChild(articleField);
+        floatingArticle.appendChild(articleLabel);
+
+        const floatingProductName = document.createElement("div");
+        floatingProductName.classList.add("form-floating");
+        floatingProductName.classList.add("my-2");
+        const productField = document.createElement("input");
+        productField.setAttribute("type", "text");
+        productField.setAttribute("name", "product_name");
+        productField.setAttribute("id", "floatingProductName");
+        productField.setAttribute("required", "required");
+        productField.classList.add("form-control");
+        const productLabel = document.createElement("label");
+        productLabel.setAttribute("for", "floatingProductName");
+        productLabel.innerHTML = "Название товара";
+        floatingProductName.appendChild(productField);
+        floatingProductName.appendChild(productLabel);
+
+        const floatingQuantity = document.createElement("div");
+        floatingQuantity.classList.add("form-floating");
+        floatingQuantity.classList.add("my-2");
+        const quantityField = document.createElement("input");
+        quantityField.setAttribute("type", "number");
+        quantityField.setAttribute("name", "quantity");
+        quantityField.setAttribute("id", "floatingQuantity");
+        quantityField.setAttribute("required", "required");
+        quantityField.classList.add("form-control");
+        const quantityLabel = document.createElement("label");
+        quantityLabel.setAttribute("for", "floatingQuantity");
+        quantityLabel.innerHTML = "Количество единиц товара";
+        floatingQuantity.appendChild(quantityField);
+        floatingQuantity.appendChild(quantityLabel);
+
+        const floatingCost = document.createElement("div");
+        floatingCost.classList.add("form-floating");
+        floatingCost.classList.add("my-2");
+        const costField = document.createElement("input");
+        costField.setAttribute("type", "number");
+        costField.setAttribute("step", "0.01");
+        costField.setAttribute("name", "cost");
+        costField.setAttribute("required", "required");
+        costField.setAttribute("id", "floatingCost");
+        costField.classList.add("form-control");
+        const costLabel = document.createElement("label");
+        costLabel.setAttribute("for", "floatingCost");
+        costLabel.innerHTML = "Стоимость товара";
+        floatingCost.appendChild(costField);
+        floatingCost.appendChild(costLabel);
+
+        wrapper.appendChild(titleArticle);
+        wrapper.appendChild(floatingArticle);
+        wrapper.appendChild(floatingProductName);
+        wrapper.appendChild(floatingQuantity);
+        wrapper.appendChild(floatingCost);
+
+        divEle.appendChild(wrapper);
+    }
+</script>
+</body>
+</html>

@@ -1,0 +1,84 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Инфо о заказах</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+</head>
+<body>
+<div class="px-4 py-5 my-5 text-center w-75 m-auto">
+    <h1 class="h3 fw-bold text-body-emphasis mb-5" >Информация о заказе по названию товара <br> и временному периоду</h1>
+    <div th:each="pair, iterStat : ${list}">
+        <div  class="mb-5">
+            <h1 class="h5 fw-bold text-body-emphasis mb-2 mt-5" th:text="'Заказ №' + ${iterStat.index+1}"></h1>
+            <table class="table w-50 m-auto">
+            <tr>
+                <th scope="row">ID</th>
+                <td th:text="${pair.first.id}"></td>
+            </tr>
+            <tr>
+                <th scope="row">Номер заказа</th>
+                <td th:text="${pair.first.order_number}"></td>
+            </tr>
+            <tr>
+                <th scope="row">Cумма заказа</th>
+                <td th:text="${pair.first.amount}"></td>
+            </tr>
+            <tr>
+                <th scope="row">Дата заказа</th>
+                <td th:text="${#temporals.format(pair.first.date,'dd-MM-yyyy')}"></td>
+            </tr>
+            <tr>
+                <th scope="row">Имя получателя</th>
+                <td th:text="${pair.first.receiver}"></td>
+            </tr>
+            <tr>
+                <th scope="row">Адрес получателя</th>
+                <td th:text="${pair.first.address}"></td>
+            </tr>
+            <tr>
+                <th scope="row">Способ оплаты</th>
+                <td th:text="${pair.first.payment_type}"></td>
+            </tr>
+            <tr>
+                <th scope="row">Способ доставки</th>
+                <td th:text="${pair.first.delivery_type}"></td>
+            </tr>
+            </table>
+            <div th:each="product, iterStat : ${pair.second}">
+            <h1 class="h5 fw-bold text-body-emphasis mb-2 mt-5" th:text="'Товар №' + ${iterStat.index+1}"></h1>
+            <table class="table w-50 m-auto">
+                <tbody>
+                <tr>
+                    <th class="w-50" scope="row">ID товара</th>
+                    <td th:text="${product.id}"></td>
+                </tr>
+                <tr>
+                    <th scope="row">Артикул товара</th>
+                    <td th:text="${product.article_number}"></td>
+                </tr>
+                <tr>
+                    <th scope="row">Название товара</th>
+                    <td th:text="${product.product_name}"></td>
+                </tr>
+                <tr>
+                    <th scope="row">Количество продуктов</th>
+                    <td th:text="${product.quantity}"></td>
+                </tr>
+                <tr>
+                    <th scope="row">Стоимость товара</th>
+                    <td th:text="${product.cost}"></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+            <hr class="mt-5 w-75 m-auto">
+        </div>
+    </div>
+
+</div>
+</body>
+</html>
